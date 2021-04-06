@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 package assgui;
-
-
+import java.sql.Connection;
 /**
  *
  * @author Arnav Shindolkar
@@ -128,6 +127,10 @@ public class homepage extends javax.swing.JFrame {
                 new homepage().setVisible(true);
             }
         });
+        Connection conn = ConnectDatabase.getConnection();
+        if(conn!=null){
+            System.out.print("Connected");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

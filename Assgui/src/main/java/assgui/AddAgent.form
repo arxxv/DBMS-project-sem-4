@@ -117,14 +117,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="a_id">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="a_idActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="a_phone_num">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="a_phone_numActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="a_email">
     </Component>
@@ -134,6 +128,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="add_agent_buttonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

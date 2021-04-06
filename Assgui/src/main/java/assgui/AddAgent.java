@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 package assgui;
-
+import java.sql.*;
 /**
  *
  * @author Arnav Shindolkar
  */
 public class AddAgent extends javax.swing.JFrame {
-
+    Connection conn = ConnectDatabase.getConnection();
     /**
      * Creates new form AddAgent
      */
@@ -52,19 +52,12 @@ public class AddAgent extends javax.swing.JFrame {
 
         jLabel5.setText("Phone Number:");
 
-        a_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                a_idActionPerformed(evt);
-            }
-        });
-
-        a_phone_num.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                a_phone_numActionPerformed(evt);
-            }
-        });
-
         add_agent_button.setText("Add");
+        add_agent_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_agent_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,13 +116,26 @@ public class AddAgent extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void a_phone_numActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a_phone_numActionPerformed
+    private void add_agent_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_agent_buttonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_a_phone_numActionPerformed
-
-    private void a_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_a_idActionPerformed
+        Statement stmt;
+        Integer aid = Integer.parseInt(a_id.getText());
+        String phone = a_phone_num.getText();
+        String name = a_name.getText();
+        String email = a_email.getText();
+        try{
+            stmt = conn.createStatement();
+            String sql = "insert into agent(a_id,a_name,a_email,a_phone) values (" + aid + ",\""+name+"\","+"\""+email+"\","+"\""+phone+"\""+");";
+            stmt.executeUpdate(sql);
+            a_id.setText("");
+            a_phone_num.setText("");
+            a_name.setText("");
+            a_email.setText("");
+            stmt.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_add_agent_buttonActionPerformed
 
     /**
      * @param args the command line arguments

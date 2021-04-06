@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 package assgui;
-
+import java.sql.*;
 /**
  *
  * @author Arnav Shindolkar
  */
 public class RemoveAgent extends javax.swing.JFrame {
-
+Connection conn = ConnectDatabase.getConnection();
     /**
      * Creates new form RemoveAgent
      */
@@ -65,12 +65,13 @@ public class RemoveAgent extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(rm_aid, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(rma_button, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(80, 80, 80)
                         .addComponent(jLabel1)))
                 .addContainerGap(33, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(rma_button, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,7 +97,17 @@ public class RemoveAgent extends javax.swing.JFrame {
 
     private void rma_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rma_buttonActionPerformed
         // TODO add your handling code here:
-
+        Statement stmt;
+        Integer aid = Integer.parseInt(rm_aid.getText());
+        try{
+            stmt = conn.createStatement();
+            String sql = "delete from agent where a_id="+aid+";";
+            stmt.executeUpdate(sql);
+            rm_aid.setText("");
+            stmt.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_rma_buttonActionPerformed
 
     /**
