@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package assgui;
-
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Arnav Shindolkar
@@ -14,9 +15,33 @@ public class show_all_estates_agent extends javax.swing.JFrame {
     /**
      * Creates new form show_all_estates_agent
      */
-    int agent_id = AgentLogin.agent_id;
+    static int agent_id = AgentLogin.agent_id;
     public show_all_estates_agent() {
         initComponents();
+        try {
+            DefaultTableModel tableModel = new DefaultTableModel();
+            Connection conn =  ConnectDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = " select * from agent join estate on agent.a_id = estate.a_id where agent.a_id = "+ agent_id + ";";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData metaData = rs.getMetaData();
+            //System.out.print(rsmt);
+            int columnCount = metaData.getColumnCount();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++){
+            tableModel.addColumn(metaData.getColumnLabel(columnIndex));
+            }
+            Object[] row = new Object[columnCount];
+            while(rs.next()){
+                   for (int i = 0; i < columnCount; i++){
+                row[i] = rs.getObject(i+1);
+            }
+            //Now add row to table model with that array of objects as an argument
+            tableModel.addRow(row);
+            }
+            jTable1.setModel(tableModel);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
     }
 
     /**
@@ -29,19 +54,23 @@ public class show_all_estates_agent extends javax.swing.JFrame {
     private void initComponents() {
 
         result_panel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout result_panelLayout = new javax.swing.GroupLayout(result_panel);
         result_panel.setLayout(result_panelLayout);
         result_panelLayout.setHorizontalGroup(
             result_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 666, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         result_panelLayout.setVerticalGroup(
             result_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
@@ -57,7 +86,7 @@ public class show_all_estates_agent extends javax.swing.JFrame {
                 .addComponent(result_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(243, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(238, 238, 238))
         );
@@ -112,6 +141,8 @@ public class show_all_estates_agent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel result_panel;
     // End of variables declaration//GEN-END:variables
 }
