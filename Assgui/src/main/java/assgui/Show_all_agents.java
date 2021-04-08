@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package assgui;
-
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Arnav Shindolkar
@@ -16,6 +17,30 @@ public class Show_all_agents extends javax.swing.JFrame {
      */
     public Show_all_agents() {
         initComponents();
+        try {
+            DefaultTableModel tableModel = new DefaultTableModel();
+            Connection conn =  ConnectDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = " select * from agent;";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData metaData = rs.getMetaData();
+            //System.out.print(rsmt);
+            int columnCount = metaData.getColumnCount();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++){
+            tableModel.addColumn(metaData.getColumnLabel(columnIndex));
+            }
+            Object[] row = new Object[columnCount];
+            while(rs.next()){
+                   for (int i = 0; i < columnCount; i++){
+                row[i] = rs.getObject(i+1);
+            }
+            //Now add row to table model with that array of objects as an argument
+            tableModel.addRow(row);
+            }
+            agentTable.setModel(tableModel);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
     }
 
     /**
@@ -29,6 +54,8 @@ public class Show_all_agents extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         result_panel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        agentTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,28 +71,37 @@ public class Show_all_agents extends javax.swing.JFrame {
         );
         result_panelLayout.setVerticalGroup(
             result_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jScrollPane1.setViewportView(agentTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(result_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(result_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(298, 298, 298)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(298, 298, 298)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(result_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -110,7 +146,9 @@ public class Show_all_agents extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable agentTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel result_panel;
     // End of variables declaration//GEN-END:variables
 }

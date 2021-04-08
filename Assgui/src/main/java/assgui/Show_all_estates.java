@@ -5,6 +5,12 @@
  */
 package assgui;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Arnav Shindolkar
@@ -16,6 +22,30 @@ public class Show_all_estates extends javax.swing.JFrame {
      */
     public Show_all_estates() {
         initComponents();
+        try {
+            DefaultTableModel tableModel = new DefaultTableModel();
+            Connection conn =  ConnectDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = " select * from estate natural join estate_details";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData metaData = rs.getMetaData();
+            //System.out.print(rsmt);
+            int columnCount = metaData.getColumnCount();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++){
+            tableModel.addColumn(metaData.getColumnLabel(columnIndex));
+            }
+            Object[] row = new Object[columnCount];
+            while(rs.next()){
+                   for (int i = 0; i < columnCount; i++){
+                row[i] = rs.getObject(i+1);
+            }
+            //Now add row to table model with that array of objects as an argument
+            tableModel.addRow(row);
+            }
+            estateTable.setModel(tableModel);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
     }
 
     /**
@@ -29,22 +59,26 @@ public class Show_all_estates extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         result_panel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        estateTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Estates");
+        jLabel1.setText("All Estates");
+
+        jScrollPane1.setViewportView(estateTable);
 
         javax.swing.GroupLayout result_panelLayout = new javax.swing.GroupLayout(result_panel);
         result_panel.setLayout(result_panelLayout);
         result_panelLayout.setHorizontalGroup(
             result_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 704, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         result_panelLayout.setVerticalGroup(
             result_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -55,10 +89,10 @@ public class Show_all_estates extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(result_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(276, 276, 276)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(862, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(852, 852, 852))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +144,9 @@ public class Show_all_estates extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable estateTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel result_panel;
     // End of variables declaration//GEN-END:variables
 }
