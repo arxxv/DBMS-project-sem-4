@@ -141,36 +141,6 @@ public class AddEstate extends javax.swing.JFrame {
             }
         });
 
-        city.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cityActionPerformed(evt);
-            }
-        });
-
-        state.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stateActionPerformed(evt);
-            }
-        });
-
-        aid.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aidActionPerformed(evt);
-            }
-        });
-
-        e_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                e_nameActionPerformed(evt);
-            }
-        });
-
-        e_type.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                e_typeActionPerformed(evt);
-            }
-        });
-
         rbg_sale_rent.add(jRadioButton1);
         jRadioButton1.setText("For Sale");
 
@@ -364,26 +334,6 @@ public class AddEstate extends javax.swing.JFrame {
     private void add_estate_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_estate_buttonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_add_estate_buttonActionPerformed
-
-    private void cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cityActionPerformed
-
-    private void stateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_stateActionPerformed
-
-    private void aidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aidActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aidActionPerformed
-
-    private void e_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_e_nameActionPerformed
-
-    private void e_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_typeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_e_typeActionPerformed
 
     /**
      * @param args the command line arguments

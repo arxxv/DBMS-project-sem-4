@@ -106,7 +106,7 @@ public class AgentLogin extends javax.swing.JFrame {
             String sql = " select * from agent;";
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                   if(rs.getInt(1) == agent_id){
+                   if(rs.getInt("a_id") == agent_id){
                        flag = 1;
                    }
             }
@@ -117,6 +117,7 @@ public class AgentLogin extends javax.swing.JFrame {
                 agent_menu_p.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
             else{
+                agent_id_inp.setText("");
                 agent_not_found.setVisible(true);
                 agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }

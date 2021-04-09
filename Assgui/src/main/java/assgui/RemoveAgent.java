@@ -109,7 +109,7 @@ Connection conn = ConnectDatabase.getConnection();
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(success_fail_msg);
             while(rs.next()){
-                   if(rs.getInt(1) == aid){
+                   if(rs.getInt("a_id") == aid){
                        flag = 1;
                    }
             }
@@ -122,10 +122,11 @@ Connection conn = ConnectDatabase.getConnection();
 
             }
             else{
+                rm_aid.setText("");
                 agent_not_found.setVisible(true);
                 agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
-            
+            stmt.close();
             
         }catch(Exception e){
             e.printStackTrace();

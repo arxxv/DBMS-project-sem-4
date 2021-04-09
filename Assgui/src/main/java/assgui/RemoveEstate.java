@@ -113,7 +113,7 @@ public class RemoveEstate extends javax.swing.JFrame {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(check_q);
             while(rs.next()){
-                   if(rs.getInt(1) == eid){
+                   if(rs.getInt("estate_id") == eid){
                        flag = 1;
                    }
             }
@@ -126,6 +126,7 @@ public class RemoveEstate extends javax.swing.JFrame {
                 suc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
             else{
+                rm_eid.setText("");
                 agent_not_found.setVisible(true);
                 agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }

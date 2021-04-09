@@ -14,9 +14,9 @@ public class ConnectDatabase {
     static Connection conn = null;
     public static Connection getConnection(){
         if(conn!=null) return conn;
-        String database = "project2";
+        String database = "project";
         String Username = "root";
-        String password ="xxarxxvxx0505";
+        String password ="password";
         return getConnection(database,Username,password);
     }
     private static Connection getConnection(String db, String Username, String password){

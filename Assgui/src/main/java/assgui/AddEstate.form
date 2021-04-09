@@ -432,29 +432,14 @@
     <Component class="javax.swing.JTextField" name="date_assigned">
     </Component>
     <Component class="javax.swing.JTextField" name="city">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cityActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="state">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stateActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="aid">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aidActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="e_name">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="e_nameActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="e_type">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="e_typeActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="address">
     </Component>

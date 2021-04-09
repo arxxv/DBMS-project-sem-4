@@ -132,7 +132,7 @@ public class AddAgent extends javax.swing.JFrame {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(check_q);
             while(rs.next()){
-                   if(rs.getInt(1) == aid){
+                   if(rs.getInt("a_id") == aid){
                        flag = 0;
                    }
             }
@@ -147,6 +147,10 @@ public class AddAgent extends javax.swing.JFrame {
                 success.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
             else{
+                a_id.setText("");
+                a_phone_num.setText("");
+                a_name.setText("");
+                a_email.setText("");
                 dup.setVisible(true);
                 dup.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
