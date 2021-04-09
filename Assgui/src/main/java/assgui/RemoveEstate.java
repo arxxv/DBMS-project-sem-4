@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 package assgui;
+import java.sql.*;
+
 
 /**
  *
  * @author Arnav Shindolkar
  */
 public class RemoveEstate extends javax.swing.JFrame {
+    Connection conn = ConnectDatabase.getConnection();
+
 
     /**
      * Creates new form RemoveEstate
@@ -17,6 +21,9 @@ public class RemoveEstate extends javax.swing.JFrame {
     public RemoveEstate() {
         initComponents();
     }
+    
+    not_found agent_not_found = new not_found();
+    successful suc = new successful();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,7 +103,38 @@ public class RemoveEstate extends javax.swing.JFrame {
 
     private void rme_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rme_buttonActionPerformed
         // TODO add your handling code here:
+        int flag = 0;
+        try{
+            Statement stmt;
+            Integer eid = Integer.parseInt(rm_eid.getText());
+            String main_q = "delete from estate where estate_id = "+eid+";";
+            String main_q_2 = "delete from customer where estate_id = "+eid+";";
+            String check_q = "select * from estate;";
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(check_q);
+            while(rs.next()){
+                   if(rs.getInt(1) == eid){
+                       flag = 1;
+                   }
+            }
+            if (flag==1){
+                stmt.executeUpdate(main_q_2);
+                stmt.executeUpdate(main_q);
+                rm_eid.setText("");
+                stmt.close();
+                suc.setVisible(true);
+                suc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+            else{
+                agent_not_found.setVisible(true);
+                agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         
+        
+
     }//GEN-LAST:event_rme_buttonActionPerformed
 
     /**

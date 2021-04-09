@@ -22,7 +22,7 @@ public class show_all_estates_agent extends javax.swing.JFrame {
             DefaultTableModel tableModel = new DefaultTableModel();
             Connection conn =  ConnectDatabase.getConnection();
             Statement stmt = conn.createStatement();
-            String sql = " select * from agent join estate on agent.a_id = estate.a_id where agent.a_id = "+ agent_id + ";";
+            String sql = " select estate_id as ID,name as Name, concat(city,', ',state) as Address, date_sold_or_rented as 'Date of Last Sale', sale_or_rent as Type, available as Availability,floor_space as 'Floor Space', no_of_bedrooms as '#Bedrooms',price_or_rent_pm as 'Amount(Rs)', s_id as 'Seller ID' from agent natural join estate natural join estate_details where a_id = "+ agent_id + ";";
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData metaData = rs.getMetaData();
             //System.out.print(rsmt);

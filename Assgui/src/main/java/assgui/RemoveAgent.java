@@ -17,6 +17,9 @@ Connection conn = ConnectDatabase.getConnection();
     public RemoveAgent() {
         initComponents();
     }
+    
+    not_found agent_not_found = new not_found();
+    successful suc = new successful();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,11 +103,30 @@ Connection conn = ConnectDatabase.getConnection();
         Statement stmt;
         Integer aid = Integer.parseInt(rm_aid.getText());
         try{
-            stmt = conn.createStatement();
+            int flag = 0;
+            String success_fail_msg = "select * from agent;";
             String sql = "delete from agent where a_id="+aid+";";
-            stmt.executeUpdate(sql);
-            rm_aid.setText("");
-            stmt.close();
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(success_fail_msg);
+            while(rs.next()){
+                   if(rs.getInt(1) == aid){
+                       flag = 1;
+                   }
+            }
+            if (flag==1){
+                stmt.executeUpdate(sql);
+                rm_aid.setText("");
+                stmt.close();
+                suc.setVisible(true);
+                suc.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            }
+            else{
+                agent_not_found.setVisible(true);
+                agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+            
+            
         }catch(Exception e){
             e.printStackTrace();
         }

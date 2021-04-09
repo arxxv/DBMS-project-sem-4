@@ -17,6 +17,9 @@ public class AddAgent extends javax.swing.JFrame {
     public AddAgent() {
         initComponents();
     }
+    
+    successful success = new successful();
+    DuplicateEntry dup = new DuplicateEntry();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -119,19 +122,36 @@ public class AddAgent extends javax.swing.JFrame {
     private void add_agent_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_agent_buttonActionPerformed
         // TODO add your handling code here:
         Statement stmt;
+        String check_q = "select * from agent;";
+        int flag = 1;
         Integer aid = Integer.parseInt(a_id.getText());
         String phone = a_phone_num.getText();
         String name = a_name.getText();
         String email = a_email.getText();
         try{
             stmt = conn.createStatement();
-            String sql = "insert into agent(a_id,a_name,a_email,a_phone) values (" + aid + ",\""+name+"\","+"\""+email+"\","+"\""+phone+"\""+");";
-            stmt.executeUpdate(sql);
-            a_id.setText("");
-            a_phone_num.setText("");
-            a_name.setText("");
-            a_email.setText("");
+            ResultSet rs = stmt.executeQuery(check_q);
+            while(rs.next()){
+                   if(rs.getInt(1) == aid){
+                       flag = 0;
+                   }
+            }
+            if (flag==1){
+                String sql = "insert into agent(a_id,a_name,a_email,a_phone) values (" + aid + ",\""+name+"\","+"\""+email+"\","+"\""+phone+"\""+");";
+                stmt.executeUpdate(sql);
+                a_id.setText("");
+                a_phone_num.setText("");
+                a_name.setText("");
+                a_email.setText("");
+                success.setVisible(true);
+                success.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+            else{
+                dup.setVisible(true);
+                dup.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
             stmt.close();
+
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -5,6 +5,10 @@
  */
 package assgui;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author Arnav Shindolkar
@@ -18,6 +22,7 @@ public class AgentLogin extends javax.swing.JFrame {
         initComponents();
     }
     public static int agent_id;
+    not_found agent_not_found = new not_found();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,10 +99,33 @@ public class AgentLogin extends javax.swing.JFrame {
     private void submit_aidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_aidActionPerformed
         // TODO add your handling code here:
         agent_id = Integer.parseInt(agent_id_inp.getText());
-        AgentMenu agent_menu_p = new AgentMenu(); 
-        agent_menu_p.setVisible(true);
-        this.setVisible(false);
-        agent_menu_p.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        int flag = 0;
+        try{
+            Connection conn =  ConnectDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = " select * from agent;";
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                   if(rs.getInt(1) == agent_id){
+                       flag = 1;
+                   }
+            }
+            if (flag==1){
+                AgentMenu agent_menu_p = new AgentMenu(); 
+                agent_menu_p.setVisible(true);
+                this.setVisible(false);
+                agent_menu_p.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+            else{
+                agent_not_found.setVisible(true);
+                agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
+        
 //        System.out.println(agent_id);
     }//GEN-LAST:event_submit_aidActionPerformed
 

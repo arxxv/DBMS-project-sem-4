@@ -19,7 +19,6 @@ public class AgentMenu extends javax.swing.JFrame {
         this.search_estate = new searchEstate();
         initComponents();
     }
-
     show_all_estates_agent listEstates = new show_all_estates_agent();
     Update_estate_agent sell_rent_estate = new Update_estate_agent();
     searchEstate search_estate;

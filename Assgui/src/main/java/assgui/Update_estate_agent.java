@@ -19,6 +19,8 @@ public class Update_estate_agent extends javax.swing.JFrame {
     public Update_estate_agent() {
         initComponents();
     }
+    not_found estate_not_found = new not_found();
+    successful success = new successful();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -160,24 +162,45 @@ public class Update_estate_agent extends javax.swing.JFrame {
        String cEmail = customer_email.getText();
        String cPhone = customer_phone.getText();
        int cId = Integer.parseInt(customer_id.getText());
+       int flag = 0;
+       
        try {
             Connection conn = ConnectDatabase.getConnection();
             Statement stmt = conn.createStatement();
+            String check_estate = "select * from estate where available=True and a_id = " + agent_id + ";";
             String sql = "Update estate set available=false, date_sold_or_rented= \""+java.time.LocalDate.now()+"\" where estate_id = "+estateId+";";
             String sql2 = "Update estate_details set price_or_rent_pm ="+amount+" where estate_id ="+estateId+";";
             String sql3 = "Insert into customer(c_id,c_name,estate_id,c_email,c_phone) values ("+cId+","+"\""+cName+"\""+","+estateId+","+"\""+cEmail+"\""+","+"\""+cPhone+"\""+");";
-            stmt.executeUpdate(sql);
-            stmt.executeUpdate(sql2);
-            stmt.executeUpdate(sql3);
-            stmt.close();
-            conn.close();
-            estate_id_update.setText("");
-            amount_update.setText("");
-            customer_name.setText("");
-            customer_phone.setText("");
-            customer_email.setText("");
-            customer_phone.setText("");
-            customer_id.setText("");
+            
+            ResultSet rs = stmt.executeQuery(check_estate);
+            while(rs.next()){
+                   if(rs.getInt(1) == estateId){
+                       System.out.println(rs.getInt(1));
+                       flag = 1;
+                   }
+            }
+            if (flag==1){
+                stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql2);
+                stmt.executeUpdate(sql3);
+                stmt.close();
+                conn.close();
+                estate_id_update.setText("");
+                amount_update.setText("");
+                customer_name.setText("");
+                customer_phone.setText("");
+                customer_email.setText("");
+                customer_phone.setText("");
+                customer_id.setText("");
+                success.setVisible(true);
+                success.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            }
+            else{
+                estate_not_found.setVisible(true);
+                estate_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+            
     
        } catch(Exception e){
            e.printStackTrace();
