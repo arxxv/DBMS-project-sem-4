@@ -5,12 +5,14 @@
  */
 package assgui;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Arnav Shindolkar
  */
 public class AddAgent extends javax.swing.JFrame {
-    Connection conn = ConnectDatabase.getConnection();
+    
     /**
      * Creates new form AddAgent
      */
@@ -121,7 +123,7 @@ public class AddAgent extends javax.swing.JFrame {
 
     private void add_agent_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_agent_buttonActionPerformed
         // TODO add your handling code here:
-        Statement stmt;
+        Connection conn = ConnectDatabase.getConnection();
         String check_q = "select * from agent;";
         int flag = 1;
         Integer aid = Integer.parseInt(a_id.getText());
@@ -129,6 +131,8 @@ public class AddAgent extends javax.swing.JFrame {
         String name = a_name.getText();
         String email = a_email.getText();
         try{
+            conn.setAutoCommit(false);
+            Statement stmt;
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(check_q);
             while(rs.next()){
@@ -155,8 +159,13 @@ public class AddAgent extends javax.swing.JFrame {
                 dup.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
             stmt.close();
-
-        } catch (Exception e){
+            conn.commit();
+        } catch (SQLException e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }//GEN-LAST:event_add_agent_buttonActionPerformed
