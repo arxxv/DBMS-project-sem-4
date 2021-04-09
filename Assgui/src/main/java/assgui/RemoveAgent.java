@@ -5,12 +5,14 @@
  */
 package assgui;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Arnav Shindolkar
  */
 public class RemoveAgent extends javax.swing.JFrame {
-Connection conn = ConnectDatabase.getConnection();
+
     /**
      * Creates new form RemoveAgent
      */
@@ -100,9 +102,11 @@ Connection conn = ConnectDatabase.getConnection();
 
     private void rma_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rma_buttonActionPerformed
         // TODO add your handling code here:
-        Statement stmt;
+        Connection conn = ConnectDatabase.getConnection(); 
         Integer aid = Integer.parseInt(rm_aid.getText());
         try{
+            conn.setAutoCommit(false);
+            Statement stmt;
             int flag = 0;
             String success_fail_msg = "select * from agent;";
             String sql = "delete from agent where a_id="+aid+";";
@@ -126,9 +130,15 @@ Connection conn = ConnectDatabase.getConnection();
                 agent_not_found.setVisible(true);
                 agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
+            conn.commit();
             stmt.close();
-            
+            conn.close();
         }catch(Exception e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }//GEN-LAST:event_rma_buttonActionPerformed

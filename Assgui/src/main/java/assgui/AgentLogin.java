@@ -7,7 +7,10 @@ package assgui;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,12 +45,6 @@ public class AgentLogin extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Enter your ID:");
-
-        agent_id_inp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agent_id_inpActionPerformed(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel2.setText("Agent Menu");
@@ -98,10 +95,11 @@ public class AgentLogin extends javax.swing.JFrame {
 
     private void submit_aidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_aidActionPerformed
         // TODO add your handling code here:
+        Connection conn =  ConnectDatabase.getConnection();
         agent_id = Integer.parseInt(agent_id_inp.getText());
         int flag = 0;
         try{
-            Connection conn =  ConnectDatabase.getConnection();
+            conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             String sql = " select * from agent;";
             ResultSet rs = stmt.executeQuery(sql);
@@ -121,7 +119,15 @@ public class AgentLogin extends javax.swing.JFrame {
                 agent_not_found.setVisible(true);
                 agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
-        }catch(Exception e){
+            conn.commit();
+            stmt.close();
+            conn.close();
+        }catch(SQLException e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
             e.printStackTrace();
         }
         
@@ -129,11 +135,6 @@ public class AgentLogin extends javax.swing.JFrame {
         
 //        System.out.println(agent_id);
     }//GEN-LAST:event_submit_aidActionPerformed
-
-    private void agent_id_inpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agent_id_inpActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_agent_id_inpActionPerformed
 
     /**
      * @param args the command line arguments

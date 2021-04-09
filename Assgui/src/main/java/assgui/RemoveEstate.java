@@ -5,6 +5,8 @@
  */
 package assgui;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -12,8 +14,6 @@ import java.sql.*;
  * @author Arnav Shindolkar
  */
 public class RemoveEstate extends javax.swing.JFrame {
-    Connection conn = ConnectDatabase.getConnection();
-
 
     /**
      * Creates new form RemoveEstate
@@ -103,8 +103,10 @@ public class RemoveEstate extends javax.swing.JFrame {
 
     private void rme_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rme_buttonActionPerformed
         // TODO add your handling code here:
+        Connection conn = ConnectDatabase.getConnection();
         int flag = 0;
         try{
+            conn.setAutoCommit(false);
             Statement stmt;
             Integer eid = Integer.parseInt(rm_eid.getText());
             String main_q = "delete from estate where estate_id = "+eid+";";
@@ -130,7 +132,15 @@ public class RemoveEstate extends javax.swing.JFrame {
                 agent_not_found.setVisible(true);
                 agent_not_found.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
+            conn.commit();
+            stmt.close();
+            conn.close();
         } catch(Exception e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
         

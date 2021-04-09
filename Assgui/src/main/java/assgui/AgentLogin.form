@@ -71,9 +71,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="agent_id_inp">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agent_id_inpActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
